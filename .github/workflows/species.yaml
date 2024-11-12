@@ -1,0 +1,31 @@
+name: Test Star Wars Species API
+
+on:
+  push:
+    branches: 
+      - main  # Executa o workflow sempre que há um push na branch principal (main)
+  pull_request:
+    branches:
+      - main  # Executa o workflow também em pull requests para a branch main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Usa a última versão do Ubuntu para rodar o workflow
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Faz o checkout do código do repositório
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Define a versão do Node.js
+
+      - name: Install dependencies
+        run: npm install  # Instala as dependências do projeto
+
+      - name: Grant permission to run tests
+        run: chmod +x ./node_modules/.bin/jest  # Concede permissão de execução para o Jest
+
+      - name: Run Species API tests
+        run: npm test src/tests/species.test.js  # Executa os testes específicos para Species

@@ -1,0 +1,31 @@
+name: Test Star Wars Planets API
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Usa a versão mais recente do Ubuntu
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Faz o checkout do código do repositório
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Força o uso do Node.js versão 20
+
+      - name: Install dependencies
+        run: npm install  # Instala as dependências do projeto
+
+      - name: Grant permission to run Jest
+        run: chmod +x ./node_modules/.bin/jest  # Concede permissão de execução para o Jest
+
+      - name: Run Planets API tests
+        run: npm test src/tests/planet.test.js  # Executa os testes para a API de planetas

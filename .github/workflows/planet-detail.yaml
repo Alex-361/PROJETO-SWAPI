@@ -1,0 +1,39 @@
+name: Test Star Wars Planet Detail API
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          sudo npm cache clean --force  # Limpar cache
+          sudo npm install              # Instalar dependências
+          sudo chmod -R 755 .           # Garantir permissões
+
+      - name: Verify Node.js and npm versions
+        run: |
+          node -v
+          npm -v
+
+      - name: Run Planet Detail API tests
+        run: |
+          sudo chmod +x ./node_modules/.bin/jest  # Permissões de execução do Jest
+          npm test src/tests/planet-detail.test.js

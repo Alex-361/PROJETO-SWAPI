@@ -1,0 +1,27 @@
+name: Test Star Wars Film API
+
+on:
+  push:
+    branches: [ main ]  # Especificando que os testes serão rodados no branch "main"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Atualizando para a versão mais recente do checkout
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4  # Atualizando para a versão mais recente do setup-node
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Grant permission to run test
+        run: chmod +x ./node_modules/.bin/jest
+
+      - name: Run film test
+        run: npm test src/tests/film.test.js  # Rodando o teste específico de filme
